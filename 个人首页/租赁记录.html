@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>个人主页</title>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<style>
+			.layui-table-cell {
+			  height: 50px;
+			  line-height: 50px;
+			  width: 160px;
+			  text-align: center;
+			}
+			#inner-table {
+				text-align: center;
+			}
+  </style>
+		<script src="js/axios.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/http.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="UTF-8"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<!-- 图片，卖家，手机号码，时间，物品名字，价格-->
+			<div id='inner-table'>
+				<div class="layui-inline">
+					<table id="myRecords" lay-filter="myRecords"></table>
+				</div>
+			</div>
+		</div>
+		<script src="layui/layui.all.js"></script>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					data: [],
+					buyer_id: '',
+					row: {}
+				},
+				mounted() {
+					this.getData()
+				},
+				watch: {
+					data: function() {
+						this.showTable()
+					}
+				},
+				methods: {
+					showTable: function() {
+						layui.use(['table'], () => {
+							var table = layui.table;
+							table.render({
+								elem: "#myRecords",
+								height: 600,
+								cols: [
+									[{
+										field: 'orderNo',
+										title: '订单编号',
+									}, {
+										field: 'image',
+										title: '商品图片',
+										templet: function(d) {
+											return '<div><img src=' + d.image + '></div>'
+										}
+									}, {
+										field: 'name',
+										title: '商品名称',
+									}, {
+										field: 'price',
+										title: '价格',
+									}, {
+										field: 'business',
+										title: '卖家',
+									}, {
+										field: 'area',
+										title: '交易地区'
+									}, {
+										field: 'date',
+										title: '开始租借日期',
+									}, {
+										field: 'duration',
+										title: '租赁时长',
+									}]
+								],
+								page: true,
+								data: this.data
+							})
+							// table.on("row(myGoods)", function(obj) {
+							// 	window.open(obj.data.url);
+							// })
+						})
+					},
+					getData: function() {
+						axios.post('/api/trade_history', {
+							'time': Date.now(), // 时间戳，自己生成
+							'user_id': 1,
+							'state': 3
+						}).then(({
+							data,
+							msg
+						}) => {
+							var oldData = data
+							console.log(msg)
+							for (var i = 0; i < data.length; i++) {
+								console.log(oldData[i])
+								let date = new Date(oldData[i].time * 1000)
+								let year = date.getFullYear(); //取得4位数的年份
+								let month = date.getMonth() + 1; //取得日期中的月份，其中0表示1月，11表示12月
+								let date1 = date.getDate(); //返回日期月份中的天数（1到31）
+								let hour = date.getHours(); //返回日期中的小时数（0到23）
+								let minute = date.getMinutes(); //返回日期中的分钟数（0到59）
+								let second = date.getSeconds(); //返回日期中的秒数（0到59）
+								this.row.date = year + "-" + month + "-" + date1 + " " + hour + ":" + minute + ":" + second
+								this.row.orderNo = data[i].trade_id
+								console.log(oldData[i].goods_id)
+								this.buyer_id = oldData[i].buyer_id
+								axios.post('/api/one_goods', {
+									time: Date.now(),
+									goods_id: oldData[i].goods_id
+								}).then(({
+									data,
+									msg
+								}) => {
+									console.log(msg)
+									console.log(data)
+									this.row.name = data.goods_name
+									this.row.price = data.goods_price + '/天'
+									this.row.image = 'http://39.105.45.6:3232' + data.images[0].image_url
+									console.log(data.images[0].image_url)
+									axios.post('/api/user_info', {
+										user_id: this.buyer_id,
+										time: Date.now()
+									}).then(({
+										data,
+										msg
+									}) => {
+										console.log(msg)
+										console.log(data)
+										this.row.business = data.user_nickname
+										var p = data.place.split('_')
+										this.row.area = p[0]+p[1]+p[2]
+										this.data.push(this.row)
+										this.row = {}
+									})
+								})
+							}
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

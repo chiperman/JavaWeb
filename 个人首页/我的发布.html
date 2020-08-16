@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>个人主页</title>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<style>
+			.layui-table-cell {
+      height: 50px;
+      line-height: 50px;
+	  width: 200px;
+	  
+	  	text-align: center;
+    }
+	#inner-table {
+		text-align: center;
+	}
+  </style>
+		<script src="js/axios.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/http.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="layui/layui.all.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<!-- 图片，发布时间，物品名字，价格，租赁状态-->
+			<div id="inner-table">
+				<div class="layui-inline">
+					<table id="myGoods" lay-filter="myGoods">
+					</table>
+				</div>
+			</div>
+		</div>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					data: [],
+				},
+				mounted() {
+					this.getData()
+				},
+				watch:{
+					data: function(){
+						this.showTable()
+					}
+				},
+				methods: {
+					showTable: async function() {
+						await layui.use(['table'], () => {
+							var table = layui.table;
+							table.render({
+								elem: "#myGoods",
+								height: 600,
+								// url: 'http://39.105.45.6:3232/api/my_goods',
+								// method: "post",
+								// where: {time:time, user_id: 1, state:3 , token:hex_md5(String(time)+String(1)+String(3))},
+								cols: [
+									[{
+										field: 'image',
+										title: '商品图片',
+										templet: function(d) {
+											return '<div><img src=' + d.image + '></div>'
+										}
+									}, {
+										field: 'name',
+										title: '商品名称',
+									}, {
+										field: 'price',
+										title: '价格',
+									}, {
+										field: 'state',
+										title: '租赁状态',
+									}, {
+										field: 'date',
+										title: '发布时间',
+									}, {
+										field: 'area',
+										title: '发布地区',
+									}]
+								],
+								page: true,
+								data: this.data
+							})
+							// table.on("row(myGoods)", function(obj) {
+							// 	window.open(obj.data.url);
+							// })
+						})
+					},
+					getData:function() {
+						axios.post('/api/my_goods', {
+							'time': Date.now(), // 时间戳，自己生成
+							'user_id': 1,
+							'state': 3
+						}).then(({data})=> {
+							var oldData = data
+							for(var i = 0; i<oldData.length; i++){
+								let row = {}
+								row.image = 'http://39.105.45.6:3232'+oldData[i].images[0].image_url
+								row.name = oldData[i].goods_name
+								row.price = oldData[i].goods_price + '/天'
+								if(oldData[i].state == 0) {
+									row.state = '待租赁'
+								} else if (oldData[i].state == 1) {
+									row.state = '已租赁'
+								} else {
+									row.state = '已删除'
+								}
+								let date = new Date(oldData[i].create_time*1000)
+								let year=date.getFullYear();  //取得4位数的年份
+								let month=date.getMonth()+1;  //取得日期中的月份，其中0表示1月，11表示12月
+								let date1=date.getDate();      //返回日期月份中的天数（1到31）
+								let hour=date.getHours();     //返回日期中的小时数（0到23）
+								let minute=date.getMinutes(); //返回日期中的分钟数（0到59）
+								let second=date.getSeconds(); //返回日期中的秒数（0到59）
+								row.date = year+"-"+month+"-"+date1+" "+hour+":"+minute+":"+second
+								row.area = oldData[i].place
+								this.data.push(row)
+							}
+							// this.showTable()
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
