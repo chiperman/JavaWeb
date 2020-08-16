@@ -309,7 +309,6 @@
 				<div style="float: left;margin-left: 20px;">
 					<div class="block" style="width:228px;height: 230px;background-color: #fff;">
 						<div style="display:grid;justify-content:center;">
-							<!-- <img src="img/avatar.png" style="width:60px;height:60px;margin-top: 30px;"> -->
 							<div id="my_img"></div>
 							<div style="margin-top: 5px;">
 								<p style="text-align: center;" id="username">用户信息</p>
@@ -321,9 +320,9 @@
 						<div id="register" style="display:flex;justify-content:center;margin-top: 10px;">
 							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="setLocalStorage()">注册</button>
 						</div>
-							<div id="remove" style="display:flex;justify-content:center;">
+						<!-- <div id="remove" style="display:flex;justify-content:center;">
 							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="removeLocalStorage()">清空</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div style="margin-left: 20px;float: left;">
@@ -763,10 +762,17 @@
 
 		.com-footer dd {
 			margin: 0;
+		}
 
-			.com-footer .footer-content .footer-link dl a {
-				color: #666;
-			}
+		.com-footer .footer-content .footer-link dl a {
+			color: #666;
+		}
+
+		.layui-nav-img {
+			text-align: center;
+			width: 40px;
+			height: 40px;
+		} 
 	</style>
 	</style>
 
@@ -892,34 +898,38 @@
 			}
 		}
 
-		function removeLocalStorage() {
-			localStorage.removeItem('username')
-			console.log("清空 LocalStorage")
-		}
+		// function removeLocalStorage() {
+		// 	localStorage.removeItem('username')
+		// 	console.log("清空 LocalStorage")
+		// }
 
-		function setLocalStorage() {
-			username = "zzx";
-			var str = localStorage.setItem("username", username)
-			console.log("写入 LocalStorage")
-			console.log(localStorage.username)
-		}
+		// function setLocalStorage() {
+		// 	username = "zzx";
+		// 	var str = localStorage.setItem("username", username)
+		// 	console.log("写入 LocalStorage")
+		// 	console.log(localStorage.username)
+		// }
 	</script>
 
 	<script>
-		$(document).ready(function() {
-					var user_id = localStorage.getItem('userId') ? localStorage.getItem('userId') : '1'
-					axios.post('/api/user_info', {
-						user_id: 1,
-						time: Date.now()
-					}).then(({
-						data,
-						msg
-					}) => {
-						console.log(msg)
-						$('#my_img').html('<img src="' + 'http://39.105.45.6:3232' + data.user_icon + '"class="layui-nav-img" >' + (
-							localStorage.getItem('username') ?
-							localStorage.getItem('username') : '我'))
-					})
-				})
+		$(document).ready(function() {	
+			axios.post('/api/user_info', {
+				user_id: localStorage.getItem('userId') ? localStorage.getItem('userId') : '1',
+				time: Date.now()
+			}).then(({
+				data,
+				msg
+			}) => {
+				console.log(msg)
+				$('#my_img').html('<img src="' + 'http://39.105.45.6:3232' + data.user_icon + '"class="layui-nav-img" >')
+					if data.user_nickname != null{
+					document.getElementById('username').innerHTML = data.user_nickname;
+					var login = document.getElementById('login'); //选取id为test的元素
+					login.style.display = 'none'; // 隐藏选择的元素
+					var register = document.getElementById('register'); //选取id为test的元素
+					register.style.display = 'none'; // 隐藏选择的元素
+					}
+			})
+		})
 	</script>
 </html>
