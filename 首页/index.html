@@ -12,6 +12,12 @@
 		<link rel="stylesheet" href="layui/css/layui.css">
 		<link rel="stylesheet" href="css/dmaku.css" />
 		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
+		<script src="js/axios.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/http.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/jquery.js"></script>
+
 	</head>
 
 	<body style="background-color: #f8f8f8;">
@@ -303,8 +309,8 @@
 				<div style="float: left;margin-left: 20px;">
 					<div class="block" style="width:228px;height: 230px;background-color: #fff;">
 						<div style="display:grid;justify-content:center;">
-							<img src="img/avatar.png" style="width:60px;height:60px;margin-top: 30px;">
-
+							<!-- <img src="img/avatar.png" style="width:60px;height:60px;margin-top: 30px;"> -->
+							<div id="my_img"></div>
 							<div style="margin-top: 5px;">
 								<p style="text-align: center;" id="username">用户信息</p>
 							</div>
@@ -315,9 +321,9 @@
 						<div id="register" style="display:flex;justify-content:center;margin-top: 10px;">
 							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="setLocalStorage()">注册</button>
 						</div>
-					<!-- 	<div id="remove" style="display:flex;justify-content:center;">
+							<div id="remove" style="display:flex;justify-content:center;">
 							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="removeLocalStorage()">清空</button>
-						</div> -->
+						</div>
 					</div>
 				</div>
 				<div style="margin-left: 20px;float: left;">
@@ -431,21 +437,6 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- <div class="minsu-item">
-			<a href="https://minsu.meituan.com/housing/10513735/?phx_wake_up_type=mtpc_category&amp;phx_wake_up_source=recommend"
-			 target="_blank">
-				<div class="product-card-header">
-					<img src="https://img.meituan.net/phoenix/36700e2a0c5c1da86d21b03d3c23c804629362.jpg@740w_416h_1e_1c" class="product-img"><img
-					 src="null@200w_200h_1e_1c" alt="" class="head-img">
-				</div>
-				<div class="product-info">
-					<p class="product-title">宽窄巷子地铁电梯阳光loft高层公寓</p>
-					<p class="sub-title"><span>整套1居室·</span><span>可住5人 | </span><span>骡马市/新城市广场</span></p>
-					<p class="price-number numfont price"><span class="price-icon">￥</span>188</p>
-				</div>
-			</a>
-		</div> -->
 
 		<footer class="com-footer">
 			<div class="footer-content">
@@ -772,11 +763,10 @@
 
 		.com-footer dd {
 			margin: 0;
-		}
 
-		.com-footer .footer-content .footer-link dl a {
-			color: #666;
-		}
+			.com-footer .footer-content .footer-link dl a {
+				color: #666;
+			}
 	</style>
 	</style>
 
@@ -913,5 +903,23 @@
 			console.log("写入 LocalStorage")
 			console.log(localStorage.username)
 		}
+	</script>
+
+	<script>
+		$(document).ready(function() {
+					var user_id = localStorage.getItem('userId') ? localStorage.getItem('userId') : '1'
+					axios.post('/api/user_info', {
+						user_id: 1,
+						time: Date.now()
+					}).then(({
+						data,
+						msg
+					}) => {
+						console.log(msg)
+						$('#my_img').html('<img src="' + 'http://39.105.45.6:3232' + data.user_icon + '"class="layui-nav-img" >' + (
+							localStorage.getItem('username') ?
+							localStorage.getItem('username') : '我'))
+					})
+				})
 	</script>
 </html>
