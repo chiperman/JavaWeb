@@ -772,7 +772,7 @@
 			text-align: center;
 			width: 40px;
 			height: 40px;
-		} 
+		}
 	</style>
 	</style>
 
@@ -912,7 +912,7 @@
 	</script>
 
 	<script>
-		$(document).ready(function() {	
+		$(document).ready(function() {
 			axios.post('/api/user_info', {
 				user_id: localStorage.getItem('userId') ? localStorage.getItem('userId') : '1',
 				time: Date.now()
@@ -922,13 +922,13 @@
 			}) => {
 				console.log(msg)
 				$('#my_img').html('<img src="' + 'http://39.105.45.6:3232' + data.user_icon + '"class="layui-nav-img" >')
-					if data.user_nickname != null{
+				if data.user_nickname != null {
 					document.getElementById('username').innerHTML = data.user_nickname;
 					var login = document.getElementById('login'); //选取id为test的元素
 					login.style.display = 'none'; // 隐藏选择的元素
 					var register = document.getElementById('register'); //选取id为test的元素
 					register.style.display = 'none'; // 隐藏选择的元素
-					}
+				}
 			})
 		})
 	</script>
