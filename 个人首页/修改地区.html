@@ -117,7 +117,7 @@
 						place = pro + '_' + city + '_' + area
 						console.log(place)
 						axios.post('/api/change_place', {
-							user_id: 2,
+							user_id: localStorage.getItem('userId') ? localStorage.getItem('userId') : '1',
 							time: date,
 							place: place
 						}).then(({
@@ -132,7 +132,7 @@
 				getDefaultArea: async function() {
 					// var userid = localStorage.getItem('userId')
 					await axios.post('/api/user_info', {
-						user_id: 2,
+						user_id: localStorage.getItem('userId') ? localStorage.getItem('userId') : '1',
 						time: Date.now()
 					}).then(({
 						data,
