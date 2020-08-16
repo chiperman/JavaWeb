@@ -26,7 +26,7 @@
 					<dl class="layui-nav-child">
 						<dd><a href="javascript:;">我的主页</a></dd>
 						<dd><a href="javascript:;">我的聊天<span class="layui-badge-dot"></span></a></dd>
-						<dd><a href="javascript:;">退出登录</a></dd>
+						<dd><a href="javascript:;" onclick="exit()">退出登录</a></dd>
 					</dl>
 				</li>
 			</ul>
@@ -35,6 +35,11 @@
 		<script src="layui/layui.all.js"></script>
 		<script src="js/jquery.js"></script>
 		<script>
+			function exit(){
+				localStorage.removeItem('userId')
+				localStorage.removeItem('username')
+				window.location.href='../首页/index.html'
+			}
 			//注意：导航 依赖 element 模块，否则无法进行功能性操作
 			;
 			! function() {
@@ -43,8 +48,19 @@
 				//监听导航点击
 				//设置点击后刷新下面的iframe
 				$(document).ready(function() {
-					$('#my_img').html('<img src="img/bgimage.jpg" class="layui-nav-img" >' + (localStorage.getItem('username') ?
-						localStorage.getItem('username') : '我'))
+					var user_id = localStorage.getItem('userId') ? localStorage.getItem('userId') : '1'
+					axios.post('/api/user_info', {
+						user_id: 1,
+						time: Date.now()
+					}).then(({
+						data,
+						msg
+					}) => {
+						console.log(msg)
+						$('#my_img').html('<img src="' + 'http://39.105.45.6:3232' + data.user_icon + '"class="layui-nav-img" >' + (
+							localStorage.getItem('username') ?
+							localStorage.getItem('username') : '我'))
+					})
 					$(".myhtml").click(function(e) {
 						e.preventDefault();
 						$("#contentHtml").attr("src", $(this).attr("href"));
