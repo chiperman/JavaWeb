@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>用户管理</title>
+  <link rel="stylesheet" href="layui-v2.5.6/layui/css/layui.css" media="all">
+</head>
+<body>
+ 
+<table id="goodsdata" lay-filter="demo"></table>
+ 
+<script src="layui-v2.5.6/layui/layui.js"></script>
+<script src="js/axios.js" type="text/javascript" charset="UTF-8"></script>
+<script src="js/md5.js"></script>
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+
+	//默认配置项
+	axios.defaults.baseURL = 'http://39.105.45.6:3232/';
+	
+	// 请求拦截器，拦截向服务器发出的所有的请求
+	axios.interceptors.request.use(function(config){//拦截到了执行
+		// console.log(config);
+		var token = "";
+		for (var key in config.data) {
+		　　token += config.data[key];		
+		}
+		config.data['token'] = md5(token); //可以修改
+		return config; //必须返回，放行
+	}),function(err){  //拦截出错执行
+		console.log(err)
+	}
+	
+	
+	//响应拦截器，将后台返回的数据从对象中取出后返回给请求处
+	axios.interceptors.response.use(function(res){//在进入处理之前先拦截下来进行操作
+		return res.data;
+	},function(err){
+		console.log(err);
+	})
+	
+	//必须放在两个拦截器后面，否则拦截器不生效
+	axios.post('/api/admin/list',{
+			'time':Date.now(), // 时间戳，自己生成
+			'type':'goods',
+		}).then(({data})=>{
+			for(let i=0; i<data.length; i++) {
+				data[i].state === 1 ? data[i].state = '封禁中' : data[i].state = '正常';
+				data[i].during_time += '天';
+				data[i].goods_price += '元';
+			}
+			goods_data = data
+			//第一个实例
+			  table.render({
+			    elem: '#goodsdata'
+				,height: 400
+				,cellMinWidth:30
+			    ,page: true //开启分页
+				,data: goods_data
+			    ,cols: [[ //表头
+				   {field: 'goods_id', title: '商品ID', sort: true,}
+			      ,{field: 'user_id', title: '用户ID', sort: true,}
+			      ,{field: 'goods_name', title: '商品名',}
+			      ,{field: 'goods_price', title: '出租价格',}
+				  ,{field: 'during_time', title: '出租天数',}
+			      ,{field: 'state', title: '状态',} 
+			      ,{field: 'place', title: '出租地址',}
+			      ,{field: 'create_time', title: '发布时间',}
+			      ,{field: 'explains', title: '商品描述',}
+				  ,{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}
+			    ]],
+			  }); 
+			  //监听工具条
+			    table.on('tool(demo)', function(obj){
+			      var data = obj.data;
+			      if(obj.event === 'unban'){
+			        axios.post('/api/admin/manage',{
+			  						'time':Date.now(),
+			  						'type':'goods',
+			  						'state':0,
+			  					}).then(()=>{
+			  						layer.msg('id为 '+data.user_id +' 用户发布的商品：'+ data.goods_name + ' 已解封');
+			  					});
+			      } else {
+			        axios.post('/api/admin/manage',{
+			        	'time':Date.now(),
+			        	'type':'goods',
+			        	'state':1,
+			        }).then(()=>{
+			        	layer.msg('id为 '+data.user_id +' 用户发布的商品：'+ data.goods_name + ' 已封禁');
+			        });
+			      } 
+			    });		
+		});// then
+	
+	
+	});
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="unban">解封</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="ban">封禁</a>
+</script>
+</body>
+</html>

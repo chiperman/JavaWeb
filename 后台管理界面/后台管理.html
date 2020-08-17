@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="layui-v2.5.6/layui/css/layui.css">
+		<title>租赁平台后台管理</title>
+	</head>
+    <body>
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header layui-bg-black">
+			  <div class="layui-logo">租赁平台后台管理</div>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+					<a href="javascript:;">
+						<img src="./image/1.jpg" class="layui-nav-img">
+					</a>
+					<dl class="layui-nav-child">
+						<!-- 跳转到登录界面 -->
+						<dd><a href="">切换账号</a></dd>
+						<!-- <dd><a href="">安全设置</a></dd> -->
+					</dl>
+					</li>
+					<!-- 跳转到登录界面 -->
+					<li class="layui-nav-item"><a href="">退出</a></li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+			  <div class="layui-side-scroll">
+				<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+				  <li class="layui-nav-item layui-nav-itemed">
+					<a class="" href="javascript:;">用户管理</a>
+					<dl class="layui-nav-child">
+					  <dd><a href="userform.html" target="iframeMain">用户列表</a></dd>
+					  <dd><a href="searchform.html" target="iframeMain">用户查询</a></dd>
+					</dl>
+				  </li>
+				  <li class="layui-nav-item layui-nav-itemed">
+				  <a class="" href="javascript:;">发布信息管理</a>
+				  <dl class="layui-nav-child">
+				    <dd><a href="goods_manage.html" target="iframeMain">商品管理</a></dd>
+				    <dd><a href="trade_manage.html" target="iframeMain">交易管理</a></dd>
+				  </dl>
+				  </li>
+				</ul>
+			  </div>
+			</div>
+			
+			<div class="layui-body">
+			  <!-- 内容主体区域 -->
+				<!-- <div style="padding: 10px;" style="height: 500px;">
+					<iframe class="layadmin-iframe ifrem_voice" name="iframeMain" src="" width="100%" height="100%"frameborder="0"></iframe>
+				</div> -->
+				<iframe class="layadmin-iframe ifrem_voice" style="padding: 10px;" name="iframeMain" src="" width="100%" height="100%"frameborder="0"></iframe>
+			</div>
+			
+			<div class="layui-footer">
+			  <!-- 底部固定区域 -->
+			  © 租赁平台后台管理
+			</div>
+		  </div>
+	</body>
+	<script src="js/axios.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="layui-v2.5.6/layui/layui.all.js">
+		// 加载layui的element元素
+		layui.use('element', function() {
+		var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+		});					
+	</script>
+	
+</html>
+	
