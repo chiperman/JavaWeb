@@ -48,6 +48,8 @@ layui.use('table', function(){
 				data[i].is_superuser === 1 ? data[i].is_superuser = '管理员' : data[i].is_superuser = '用户';
 				data[i].state === 1 ? data[i].state = '封禁中' : data[i].state = '正常';
 				data[i].sex === 1 ? data[i].sex = '男' : data[i].sex = '女';
+				data[i].last_login_time = new Date(parseInt(data[i].last_login_time) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+				data[i].user_rtime = new Date(parseInt(data[i].user_rtime) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
 			}
 			user_data = data
 			//第一个实例

@@ -108,6 +108,8 @@
 							data.data.is_superuser === 1 ? data.data.is_superuser = '管理员' : data.data.is_superuser = '用户';
 							data.data.state === 1 ? data.data.state = '封禁中' : data.data.state = '正常';
 							data.data.sex === 1 ? data.data.sex = '男' : data.data.sex = '女';
+							data.data.last_login_time = new Date(parseInt(data.data.last_login_time) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+							data.data.user_rtime = new Date(parseInt(data.data.user_rtime) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
 							if (this.user_data.length !== 0) {
 								this.user_data.pop();
 							}
