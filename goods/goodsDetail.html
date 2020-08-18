@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情页</title>
+    <link rel="stylesheet" href="resource/layui/css/layui.css">
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"
+        integrity="sha512-VGxuOMLdTe8EmBucQ5vYNoYDTGijqUsStF6eM7P3vA/cM1pqOwSBv/uxw94PhhJJn795NlOeKBkECQZ1gIzp6A=="
+        crossorigin="anonymous"></script>
+</head>
+<style type="text/css">
+    .main-layout {
+        height: 100%;
+        width: 1140px;
+        margin: auto;
+        left: 20px;
+        right: 20px;
+        margin-top: 20px;
+    }
+
+    .fill-bg {
+        background-color: grey;
+        text-align: center;
+    }
+
+    .row1-class {
+        height: 400px;
+        border: 1px solid rgb(226, 226, 226);
+        padding: 20px;
+
+    }
+
+    .row2-class {
+        height: 100%;
+        width: auto;
+        margin-top: 20px;
+    }
+
+    .all-img {
+        width: 100%;
+    }
+
+    .block-class {
+        height: auto;
+        width: auto;
+    }
+
+    .item-name {
+        height: fit-content;
+        width: fit-content;
+        font-size: small;
+        color: rgb(91, 152, 233);
+    }
+
+    .price-area {
+        height: fit-content;
+        width: 50px;
+        font-size: small;
+        right: 5px;
+        color: rgb(201, 7, 7);
+    }
+
+    .row-border {
+        width: auto;
+        height: fit-content;
+        border: 1px solid rgb(226, 226, 226);
+        margin-top: 10px;
+        padding: 5px;
+    }
+
+    .fill-class {
+        height: 100%;
+        margin-top: 20px;
+        background-color: rgb(189, 189, 189);
+        border: 1px solid rgb(226, 226, 226);
+    }
+
+    .item-name1 {
+        font-size: 16px;
+        margin-left: 20px;
+        min-height: 21px;
+        font-weight: 700;
+        line-height: 21px;
+        color: #3C3C3C;
+    }
+
+    .item-price1 {
+        font-size: 18px;
+        min-height: 21px;
+        font-weight: 700;
+        color: red;
+    }
+
+    .price-row {
+        background-color: rgb(243, 216, 165);
+        margin-left: 20px;
+        height: 50px;
+        margin-right: 50px;
+    }
+
+    .price-icon1 {
+        font-size: 18px;
+        color: red;
+        margin: 20px;
+    }
+
+    .layui-nav .layui-nav-item {
+        margin-left: 50px;
+        text-align: center;
+    }
+
+    .comment-class {
+        height: 90px;
+        width: 100%;
+        border-bottom: 1px solid rgb(226, 226, 226);
+        padding-left: 20px;
+        margin-top: 20px;
+    }
+
+    .warn-class {
+        height: fit-content;
+        background-color: #ffffe5;
+        margin-top: 30px;
+        padding: 10px;
+        border: 1px solid #ffcc7f;
+    }
+
+    .warn-font {
+        letter-spacing: 2px;
+        font-size: 12px;
+        color: #404040;
+        font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+    }
+</style>
+</head>
+
+<body>
+    <!--导航栏-->
+    <div class="nav">
+        <ul class="layui-nav" lay-filter="" style="height:60px; width: auto;">
+            <li class="layui-nav-item" style="margin-left: 150px; "><a href="../首页/index.html" id="main_page">首页</a></li>
+            <li class="layui-nav-item layui-this"><a href="">产品详情</a></li>
+            <li class="layui-nav-item"><a href="">
+                    <img src="picture/头像.jpg" class="layui-nav-img" id="seller_img"><span
+                        id="seller_name">卖家名字</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" id="service_score">服务4.6<i class="layui-icon layui-icon-up"
+                                style="margin-left: 10px; color: red;"></i></a></dd>
+                    <dd><a href="javascript:;" id="item_score">物品4.6<i class="layui-icon layui-icon-down"
+                                style="margin-left: 10px; color: green;"></i></a></dd>
+                </dl>
+            </li>
+            <!-- <li class="layui-nav-item">
+                <input type="text" placeholder="Search for item">
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-primary">搜索</button>
+            </li> -->
+            </li>
+            <li class="layui-nav-item" style="float: right; margin-right: 150px;">
+                <a href=""><img src="picture/头像.jpg" class="layui-nav-img" id="my_img">我</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="../me/me.html">我的主页</a></dd>
+                    <dd><a href="../me/order.html">交易记录<span class="layui-badge-dot"></span></a></dd>
+                    <dd><a href="javascript:void(0);" onclick="signOut()">退出登录</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+
+    <!--设置布局-->
+    <div class="main-layout">
+        <div class="layui-row layui-col-space5 row1-class">
+            <div class="layui-col-xs4 ">
+                <div class="layui-carousel" id="pic_circle">
+                    <div carousel-item="">
+                        <div><img id="img0" src="" class="all-img"></div>
+                        <div><img id="img1" src="" class="all-img"></div>
+                        <div><img id="img2" src="" class="all-img"></div>
+                        <div><img id="img3" src="" class="all-img"></div>
+                        <div><img id="img4" src="" class="all-img"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-row" style="margin-bottom: 5px;">
+                    <a class="item-name1" id="sell_name">当前物品的名称</a>
+                </div>
+                <div class="layui-row price-row" style="margin-bottom: 5px; margin-top: 5px;">
+                    <div class="layui-col-xs1" style="margin-left: 20px; padding-top: 15px;">
+                        <a class="price-area">价格</a>
+                    </div>
+                    <div class="layui-col-xs4" style="padding-top: 10px;">
+                        <i class="layui-icon layui-icon-rmb price-icon1">
+                            <a class="item-price1" id="item_price">预估价格</a></i>
+                    </div>
+                    <!-- <div class="layui-col-xs6" style="padding-top: 15px;">
+                        <span class="layui-breadcrumb" lay-separator="|" style="float: right;">
+                            <a id="trades">交易成功10</a>
+                        </span>
+                    </div> -->
+                </div>
+                <div class="layui-row" style="margin-bottom: 5px; margin-top: 10px;">
+                    <form class="layui-form" style="margin-left:20px;" id="area_form">
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <select name="provid" id="provid" lay-filter="provid">
+                                    <option value="">请选择省</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <select name="cityid" id="cityid" lay-filter="cityid">
+                                    <option value="">请选择市</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline" style="width: 150px;">
+                                <select name="areaid" id="areaid" lay-filter="areaid">
+                                    <option value="">请选择县/区</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-row" style="margin-top: 5px; margin-bottom: 5px;">
+                    <form class="layui-form" action="" id="rent_form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label"
+                                    style="padding-left: 0px; color: rgb(165, 164, 164);">租用方式</label>
+                                <div class="layui-input-inline">
+                                    <select name="rent_way" id="rent_way" lay-filter="" lay-verify="required">
+                                        <option value="">请选择租用方式</option>
+                                        <option value="0">整租</option>
+                                        <option value="1">合租</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-row" style="margin-top: 5px; margin-bottom: 5px;">
+                    <form class="layui-form" action="" id="date_form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label"
+                                    style="padding-left: 0px; color: rgb(165, 164, 164);">租用时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="date_pick" placeholder="请选择租用时间">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-row" style="margin-top: 5px; margin-bottom: 5px;">
+                    <button type="button" class="layui-btn layui-btn-danger layui-icon "
+                        style="height: 70px; width: 300px; margin-left: 20px;  font-size: 20px;" onclick="contact()">
+                        <span class="layui-icon layui-icon-dialogue"
+                            style="float: left; margin-left: 10px; font-size: 30px;"></span>联系卖家</button>
+                    <button type="button" class="layui-btn layui-btn-warm layui-icon" id="collect" onclick="ordered()"
+                        style="margin-left: 20px; height: 70px; width: 150px;font-size: 16px;">
+                        <span class="layui-icon layui-icon-heart-fill"
+                            style="float: left; font-size: 20px;"></span>加入订单</button>
+                </div>
+            </div>
+
+            <div class="layui-col-xs2" style="border-left: 1px solid rgb(226, 226, 226);">
+                <div class=" " id="ads">
+                    <div class="layui-row" style="height: 200px;">
+                        <img src="" class="all-img" id="extra-pic0" alt="广告位1">
+                    </div>
+                    <div class="layui-row" style="margin-top: 10px; height: 200px;">
+                        <img src="" class="all-img" id="extra-pic1" alt="广告位1">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row row2-class">
+            <div class="layui-col-xs2" style="margin-top: 20px;" id="left_fill">
+                <div class="layui-row">
+                    <div style="background-color: rgb(0, 89, 255); text-align: left; color: cornsilk;">相关物品</div>
+                </div>
+                <div class="layui-row">
+                    <div class="row-border">
+                        <img class="all-img" id="rel-pic0" alt="相关产品图片" src="picture/05.jpg">
+                        <div style="width: fit-content; height: fit-content;">
+                            <a class="item-name" id="rel-name0" herf="">相关产品名称</a>
+                        </div>
+                        <span class="price-area" id="rel-price0">价格</span>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="row-border">
+                        <img class="all-img" id="rel-pic1" alt="相关产品图片" src="picture/05.jpg">
+                        <div style="width: fit-content; height: fit-content;">
+                            <a class="item-name" id="rel-name1" herf="">相关产品名称</a>
+                        </div>
+                        <span class="price-area" id="rel-price1">价格</span>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="row-border">
+                        <img class="all-img" id="rel-pic2" alt="相关产品图片" src="picture/05.jpg">
+                        <div style="width: fit-content; height: fit-content;">
+                            <a class="item-name" id="rel-name2" herf="">相关产品名称</a>
+                        </div>
+                        <span class="price-area" id="rel-price2">价格</span>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="row-border">
+                        <img class="all-img" id="rel-pic3" alt="相关产品图片" src="picture/05.jpg">
+                        <div style="width: fit-content; height: fit-content;">
+                            <a class="item-name" id="rel-name3" herf="">相关产品名称</a>
+                        </div>
+                        <span class="price-area" id="rel-price3">价格</span>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="row-border">
+                        <img class="all-img" id="rel-pic4" alt="相关产品图片" src="picture/05.jpg">
+                        <div style="width: fit-content; height: fit-content;">
+                            <a class="item-name" id="rel-name4" herf="">相关产品名称</a>
+                        </div>
+                        <span class="price-area" id="rel-price4">价格</span>
+                    </div>
+                </div>
+                <!-- <div class="layui-row">
+                    <div class="row-border">
+                        <img class="all-img" id="rel-pic55" alt="相关产品图片" src="picture/05.jpg">
+                        <div style="width: fit-content; height: fit-content;">
+                            <a class="item-name" id="rel-name5" herf="">相关产品名称</a>
+                        </div>
+                        <span class="price-area" id="rel-price5" >价格</span>
+                    </div>
+                </div> -->
+            </div>
+            <div class="layui-col-xs8">
+                <div class="">
+                    <!--选项卡设置：包括物品说明、物品参数、交易须知-->
+                    <div class="layui-tab layui-tab-brief">
+                        <ul class="layui-tab-title">
+                            <li lay-id="description" class="layui-this">物品说明</li>
+                            <!-- <li>累计评论</li> -->
+                            <li><a href="#warning">交易须知</a></li>
+                        </ul>
+                        <div class="layui-tab-content" id="main_content">
+                            <div class="layui-tab-item layui-show">
+                                <li><img class="all-img" src="" alt="图片1" id="pic0"></li>
+                                <li><img class="all-img" src="" alt="图片2" id="pic1"></li>
+                                <li><img class="all-img" src="" alt="图片3" id="pic2"></li>
+                                <li><img class="all-img" src="" alt="图片4" id="pic3"></li>
+                                <li><img class="all-img" src="" alt="图片5" id="pic4"></li>
+                                <li>
+                                    <div id="warning" class="warn-class">
+                                        <div class="layui-row"
+                                            style="padding-bottom: 10px; border-bottom: 1px solid #ffe8ca">
+                                            <div class="layui-col-xs2 warn-font"
+                                                style="font-weight: bold; padding-left: 10px;">安全提示：</div>
+                                            <div class="layui-col-xs10 warn-font"
+                                                style="line-height: 17px; padding-right: 10px;">
+                                                <p>请勿随意接收任何来源不明的文件，请勿随意点击任何来源不明的链接。涉及资金往来的事项请务必仔细核对资金往来信息。
+                                                    本网站只提供信息交换，不包括任何形式的任何金钱交易，不会有任何以某种原因让您提供银行卡、密码等重要信息的行为，所有交易请您自行与出租方联系协商。
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="layui-row" style="padding-top: 10px;">
+                                            <div class="layui-col-xs2 warn-font"
+                                                style="font-weight: bold; padding-left: 10px;">内容声明：</div>
+                                            <div class="layui-col-xs10 warn-font"
+                                                style="line-height: 17px; padding-right: 10px;">
+                                                <p>本网站为第三方交易平台及互联网信息服务提供者，所展示的商品/服务的标题、价格、详情等信息内容系由店铺经营者发布，
+                                                    其真实性、准确性和合法性均由店铺经营者负责。再次提醒用户涉及财物安全，请您小心谨慎，请确认物品后再进行支付，谨防诈骗！
+                                                    如用户对商品/服务的标题、价格、详情等任何信息有任何疑问的，请在购买前与店铺经营者沟通确认；如用户发现店铺内有任何违法/侵权信息，请立即向网站并提供有效线索。
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs2 " style="border: 1px solid rgb(226, 226, 226); ">
+                <div style="height: 50px;"></div>
+                <div style="background-color: rgb(247, 247, 247); height: 1160px;  border-top:1px solid rgb(226, 226, 226) ;"
+                    id="right_fill"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="resource/layui/layui.js"></script>
+    <script type="text/javascript" src="assets/data.js"></script>
+    <script type="text/javascript" src="assets/province.js"></script>
+    <script type="text/javascript">
+        var timeDistance = 1;
+		var userId = localStorage.getItem('userId')?localStorage.getItem('userId'):1
+		var goodsId = localStorage.getItem('goodsId')?localStorage.getItem('goodsId'):3
+		console.log(goodsId)
+        layui.use(["jquery", 'element', 'laydate', 'carousel', 'laypage'], function () {
+            var $ = layui.jquery;
+            var element = layui.element;
+            var laydate = layui.laydate;
+            var carousel = layui.carousel;
+            var table = layui.table;
+            var laypage = layui.laypage;
+            $("#description").click(function () {
+                alert($(this).html())
+            });
+            // $(function () {
+            //     $("#right_fill").css("height", $("#main_content").height());
+            // });
+            laydate.render({
+                elem: '#date_pick'
+                , range: true
+                , done: function (value, date, endDate) {
+                    //计算天数
+                    timeDistance = 1
+                    if (endDate.year % 4 == 0 && endDate.year % 100 != 0 || endDate.year % 400 == 0) {
+                        var yearToken = 1
+                    }
+                    if (date.year != endDate.year) {
+                        for (let i = date.year; i < endDate.year; i++) {
+                            if (i % 4 == 0 && i % 100 != 0 || i % 400 == 0)    //闰年            
+                            {
+                                timeDistance += 366;
+                            }
+                            else    //不是闰年
+                            {
+                                timeDistance += 365;
+                            }
+                        }
+                    }
+                    else {
+                        if (date.month != endDate.month) {
+                            for (let j = date.month; j < endDate.month; j++) {
+                                if (j == 1 || j == 3 || j == 5 || j == 7 || j == 8 || j == 10 || j == 12) {
+                                    timeDistance += 31
+                                }
+                                else if (j == 2 && yearToken == 1) {
+                                    timeDistance += 29
+                                }
+                                else if (j == 2) {
+                                    timeDistance += 28
+                                }
+                                else
+                                    timeDistance += 30
+                            }
+                        }
+                        else {
+                            if (date.date != endDate.date) {
+                                timeDistance += endDate.date - date.date
+                            }
+                        }
+                    }
+                    console.log(timeDistance)
+                }
+            });
+            carousel.render({
+                elem: '#pic_circle'
+                , width: '367px'
+                , height: '380px'
+                , interval: 5000
+            });
+            laypage.render({
+                elem: '#comments_page'
+                , limit: 20
+                , count: 10 //由服务器获得
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj) {
+                    console.log(obj)
+                }
+            });
+
+
+        });
+
+        var defaults = {
+            s1: 'provid',
+            s2: 'cityid',
+            s3: 'areaid',
+            v1: null,
+            v2: null,
+            v3: null
+        };
+        //默认配置项
+        axios.defaults.baseURL = 'http://39.105.45.6:3232/';
+
+        // 请求拦截器，拦截向服务器发出的所有的请求
+        axios.interceptors.request.use(function (config) {//拦截到了执行
+            console.log(config);
+            var token = "";
+            for (var key in config.data) {
+                token += config.data[key];
+            }
+            config.data['token'] = md5(token); //可以修改
+            return config; //必须返回，放行
+        }), function (err) {  //拦截出错执行
+            console.log(err)
+        }
+
+
+        //响应拦截器，将后台返回的数据从对象中取出后返回给请求处
+        axios.interceptors.response.use(function (res) {//在进入处理之前先拦截下来进行操作
+            console.log(res);
+            return res.data;
+        }, function (err) {
+            console.log(err);
+        })
+
+        //必须放在两个拦截器后面，否则拦截器不生效
+        //进行当前商品的数据更新
+        axios.post('/api/one_goods', {
+            'time': Date.now(), // 时间戳，自己生成
+            'token': '',  // 
+            'goods_id': goodsId,
+            //place: "威远县"
+            // 'state':3
+            // user_name:'369067220@qq.com',
+            // user_pwd:'e10adc3949ba59abbe56e057f20f883e',
+
+        }).then(function (data) {
+            // console.log(data.data)
+            //进行图片的更新
+            for (var i = 0; i < data.data.images.length; i++) {    //遍历data数组
+                var ls = data.data.images[i];
+                // console.log(ls)
+                //console.log(document.getElementById("))
+                new_src = 'http://39.105.45.6:3232' + ls.image_url
+                let new_id1 = 'pic' + i
+                let new_id2 = 'img' + i
+                let new_id3 = 'extra-pic' + i
+                document.getElementById(new_id1).setAttribute("src", new_src)
+                document.getElementById(new_id2).setAttribute("src", new_src)
+                if (i < 2) {
+                    document.getElementById(new_id3).setAttribute("src", new_src)
+                }
+
+                // obj.setAttribute("src", new_src)
+            }
+            //进行数据的更新
+            // console.log(document.getElementById("sell_name").innerHTML)
+            document.getElementById("item_price").innerHTML = data.data.goods_price + '元'
+            document.getElementById("sell_name").innerHTML = data.data.goods_name
+        })
+
+        //进行相关商品的数据更新
+        axios.post('/api/my_goods', {
+            'time': Date.now(), // 时间戳，自己生成
+            'token': '',  // 
+            'user_id': userId,
+            'state': 3
+            // user_name:'369067220@qq.com',
+            // user_pwd:'e10adc3949ba59abbe56e057f20f883e',
+
+        }).then(function (data) {
+            console.log(data.data)
+            //进行图片的更新
+            for (var i = 0; i < 5 && i < data.data.length; i++) {    //遍历data数组
+                var ls = data.data[i].images[0];
+                // console.log(ls)
+                new_src = 'http://39.105.45.6:3232' + ls.image_url
+                let new_id = 'rel-pic' + i
+                let new_id1 = 'rel-name' + i
+                let new_id2 = 'rel-price' + i
+                document.getElementById(new_id).setAttribute("src", new_src)
+                // obj.setAttribute("src", new_src)
+                //进行数据的更新
+                //console.log(document.getElementById("sell_name").innerHTML)
+                document.getElementById(new_id2).innerHTML = data.data[i].goods_price + '元'
+                document.getElementById(new_id1).innerHTML = data.data[i].goods_name
+            }
+
+        })
+
+        //进行卖家数据的更新
+        axios.post('/api/user_info', {
+            'time': Date.now(), // 时间戳，自己生成
+            'token': '',  // 
+            'user_id': userId,
+            // 'goods_id': 1,
+            // 'during_time': timeDistance,
+            // 'state':0
+            // user_name:'369067220@qq.com',
+            // user_pwd:'e10adc3949ba59abbe56e057f20f883e',
+
+        }).then(function (data) {
+            console.log(data.data)
+            let new_src = 'http://39.105.45.6:3232' + data.data.user_icon
+            document.getElementById("seller_img").setAttribute("src", new_src)
+            document.getElementById("seller_name").innerHTML = data.data.user_nickname
+        })
+
+        //添加订单的函数
+        function ordered() {
+            axios.post('/api/add_trade', {
+                'time': Date.now(), // 时间戳，自己生成
+                'token': '',  // 
+                'user_id': userId,
+                'goods_id': goodsId,
+                'during_time': timeDistance,
+                // 'state':0
+                // user_name:'369067220@qq.com',
+                // user_pwd:'e10adc3949ba59abbe56e057f20f883e',
+
+            }).then(function (data) {
+                // console.log(data.data)
+                window.alert("您已添加新的订单")
+            })
+        }
+
+        //获得卖家联系方式的方法
+        function contact() {
+            axios.post('/api/user_info', {
+                'time': Date.now(), // 时间戳，自己生成
+                'token': '',  // 
+                'user_id': userId,
+                // 'goods_id': 1,
+                // 'during_time': timeDistance,
+                // 'state':0
+                // user_name:'369067220@qq.com',
+                // user_pwd:'e10adc3949ba59abbe56e057f20f883e',
+
+            }).then(function (data) {
+                console.log(data.data)
+                window.alert("卖家的联系电话为"+data.data.user_phone+'\n'+"请您在仔细阅读交易须知后自行与卖家联系")
+            })
+        }
+
+        //退出登录的方法
+        function signOut(){
+            var info=confirm("您确定退出登录吗？")
+            if(info == true){
+                window.location.href="../home/index.html"
+            }
+        }
+		// async queryData(){
+		// 	var books = await axios.post('/api/my_goods',{
+		// 		'time':1597469104,
+		// 		'token':'59d6a44dc6f4b7654b3ade5b65a8e50b',
+		// 		'user_id':1,
+		// 		'state':3
+		// 	}); //await表达式会暂停当前 async function的执行，等待Promise 处理完成。将异步处理变成顺序处理
+			//如：下面会乱序执行，加上await则会顺序执行
+			// var books1 = axios.get('data1');
+			// var books2 = axios.get('data2');
+			// var books3 = axios.get('data3');
+			// console.log(books);
+		//}
+
+    </script>
+</body>
+
+</html>

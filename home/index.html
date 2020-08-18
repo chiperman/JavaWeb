@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<!-- import Vue before Element -->
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<!-- import JavaScript -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<link rel="stylesheet" href="css/dmaku.css" />
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
+		<script src="js/axios.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/md5.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/http.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/jquery.js"></script>
+
+	</head>
+
+	<body style="background-color: #f8f8f8;">
+		<div id="app" style="background-color: transparent;">
+			<div>
+				<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+				 background-color="#f8f8f8" text-color="#000" active-text-color="#fe8c00">
+					<el-menu-item index="1"><a href="../me/me.html" id="main_page">个人中心</a></el-menu-item>
+					<el-menu-item index="2">消息中心&nbsp;<span class="layui-badge-dot"></span></el-menu-item>
+					<el-menu-item index="3"><a href="../me/mygoods.html" id="main_page">订单管理</a></el-menu-item>
+					<el-submenu index="4">
+						<template slot="title">我的菜单</template>
+						<el-menu-item index="4-1"><a href="../me/order.html" id="main_page">我的订单</a></el-menu-item>
+						<!-- <el-menu-item index="4-2"><a href="../me/收藏.html" id="main_page">我的收藏</a></el-menu-item> -->
+						<el-menu-item index="4-3"><a href="../me/mygoods.html" id="main_page">我的发布</a></el-menu-item>
+						<el-menu-item index="4-2"><a href="../login/login.html" id="main_page">退出登录</a></el-menu-item>
+					</el-submenu>
+				</el-menu>
+			</div>
+			<div style="width: 100%;height: 100%;">
+				<div class="header-search-module">
+					<div class="header-search-block" style="width: fit-content;margin-left: auto;
+                margin-right: auto;">
+						<el-input v-model="input" placeholder="搜索物品名称" style="width: 285px;color: #999;"></el-input>
+						<el-button type="primary" icon="el-icon-search">搜索</el-button>
+					</div>
+				</div>
+			</div>
+			<el-container style="margin-top: 100px;">
+
+			</el-container>
+		</div>
+		<br>
+
+
+		<div style="width: 100%;height: 500px;background-color: #f8f8f8;margin-top: 138px;">
+			<div id="big_banner_wrap" style="position: absolute;margin-left: 150px;width: auto;top: 157px;">
+				<ul id="banner_menu_wrap" style="height: 113%;">
+					<li class="active" img>
+						<a>手机&nbsp;平板</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 600px; top: -20px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/minote.jpg"></a><a>梨子手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/mi4.jpg"></a><a>大米手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/hongmi2.jpg"></a><a>华力手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/hongmi2a.jpg"></a><a>黑米手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/note2.jpg"></a><a>POOP&nbsp;手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/note2.jpg"></a><a>Vovi&nbsp;手机</a><span>选购</span></li>
+							</ul>
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/note2.jpg"></a><a>一减手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/note2.jpg"></a><a>白鲨手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/note2.jpg"></a><a>Anoe Rce&nbsp;手机</a><span>选购</span></li>
+								<li>
+									<a><img src="img/note2.jpg"></a><a>菊花手机</a><span>选购</span></li>
+								<!-- <li>
+                                <a><img src="img/mipad.jpg"></a><a>平板</a><span>选购</span></li>
+                            <li>
+                                <a><img src="img/telcom.jpg"></a><a>电信版</a></li>
+                            <li>
+                                <a><img src="img/heyue.jpg"></a><a>合约机</a></li>
+                            <li>
+                                <a><img src="img/zhongxin.jpg"></a><a>中信特权</a></li>
+                            <li>
+                                <a><img src="img/compare.jpg"></a><a>对比手机</a></li> -->
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>电视&nbsp;盒子</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 600px; top: -62px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/tv40.jpg"></a><a>电视40英寸</a></li>
+								<li>
+									<a><img src="img/tv48.jpg"></a><a>电视48英寸</a></li>
+								<li>
+									<a><img src="img/tv49.jpg"></a><a>电视49英寸</a></li>
+								<li>
+									<a><img src="img/hezis.jpg"></a><a>电视55英寸</a></li>
+								<li>
+									<a><img src="img/hezis.jpg"></a><a>大米盒子</a></li>
+								<li>
+									<a><img src="img/hezis.jpg"></a><a>大米盒子MINI</a></li>
+							</ul>
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/dianshipeijian.jpg"></a><a>大米电视配件</a><span>选购</span></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>路由器&nbsp;智能配件</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 900px; top: -104px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/miwifi.jpg"></a><a>大米路由器</a></li>
+								<li>
+									<a><img src="img/miwifilite.jpg"></a><a>大米路由器&nbsp;青春版</a></li>
+								<li>
+									<a><img src="img/air.jpg"></a><a>净化器</a></li>
+								<li>
+									<a><img src="img/xiaoyi.jpg"></a><a>摄像机</a></li>
+								<li>
+									<a><img src="img/scale.jpg"></a><a>体重称</a></li>
+								<li>
+									<a><img src="img/scale.jpg"></a><a>智能插头</a></li>
+							</ul>
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/miwifimini.jpg"></a><a>大米路由器MINI</a></li>
+								<li>
+									<a><img src="img/wifiExtension.jpg"></a><a>大米WIFI放大器</a></li>
+								<li>
+									<a><img src="img/yicamera.jpg"></a><a>运动相机</a></li>
+								<li>
+									<a><img src="img/water.jpg"></a><a>净水器</a></li>
+								<li>
+									<a><img src="img/ihealth.jpg"></a><a>血压计</a></li>
+								<li>
+									<a><img src="img/ihealth.jpg"></a><a>床头灯</a></li>
+							</ul>
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/zhinengtaozhuang.jpg"></a><a>智能家庭套装</a></li>
+								<li>
+									<a><img src="img/shouhuan.jpg"></a><a>大米手环</a></li>
+								<li>
+									<a><img src="img/smart.jpg"></a><a>全部智能硬件</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>移动电源&nbsp;插线板</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 300px; top: -146px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/dianyuan.jpg "></a><a>大米移动电源</a></li>
+								<li>
+									<a><img src="img/powerscript.jpg"></a><a>大米插线板</a></li>
+								<li>
+									<a><img src="img/yidongdianyuan.jpg"></a><a>品牌移动电源</a></li>
+								<li>
+									<a><img src="img/dianyuanfujian.jpg"></a><a>移动电源附件</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>耳机&nbsp;音箱</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 300px; top: -188px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/headphone.jpg"></a><a>大米头戴式耳机</a></li>
+								<li>
+									<a><img src="img/huosai.jpg"></a><a>大米活塞耳机</a></li>
+								<li>
+									<a><img src="img/bluetoothheadset.jpg"></a><a>大米蓝牙耳机</a></li>
+								<li>
+									<a><img src="img/erji.jpg"></a><a>品牌耳机</a></li>
+								<li>
+									<a><img src="img/yinxiang.jpg"></a><a>音箱</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>电池&nbsp;存储卡</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 300px; top: -230px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/dianchi.jpg"></a><a>电池</a></li>
+								<li>
+									<a><img src="img/chongdian.jpg"></a><a>充电器</a></li>
+								<li>
+									<a><img src="img/xiancai.jpg"></a><a>线材</a></li>
+								<li>
+									<a><img src="img/cunchu.jpg"></a><a>存储卡</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>保护套&nbsp;后盖</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 300px; top: -272px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/baohu.jpg"></a><a>保护套/保护壳</a></li>
+								<li>
+									<a><img src="img/hougai.jpg"></a><a>后盖</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>贴膜&nbsp;其它配件</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 600px; top: -314px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/tiemo.jpg"></a><a>贴膜</a></li>
+								<li>
+									<a><img src="img/zipaigan.jpg"></a><a>自拍杆</a></li>
+								<li>
+									<a><img src="img/zipaigan.jpg"></a><a>蓝牙手柄</a></li>
+								<li>
+									<a><img src="img/tizhi.jpg"></a><a>贴纸</a></li>
+								<li>
+									<a><img src="img/fangchensai.jpg"></a><a>防尘塞</a></li>
+								<li>
+									<a><img src="img/fangchensai.jpg"></a><a>手机支架</a></li>
+							</ul>
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/raoxian.jpg"></a><a>耳机绕线器</a></li>
+								<li>
+									<a><img src="img/wifi.jpg"></a><a>随身WIFI</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>服装</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 300px; top: -356px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/mitu.jpg"></a><a>兔兔</a></li>
+								<li>
+									<a><img src="img/fuzhuang.jpg"></a><a>服装</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a>背包&nbsp;其它周边</a>
+						<a class="banner_menu_i">&gt;</a>
+						<div class="banner_menu_content" style="width: 300px; top: -398px;">
+							<ul class="banner_menu_content_ul">
+								<li>
+									<a><img src="img/bag.jpg"></a><a>背包</a></li>
+								<li>
+									<a><img src="img/shubiaodian.jpg"></a><a>大米鼠标坠</a></li>
+								<li>
+									<a><img src="img/zhoubian.jpg"></a><a>生活周边</a></li>
+								<li>
+									<a><img src="img/wan.jpg"></a><a>玩酷产品</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="home-header-links">
+				<a>二手产品</a>
+				<a>二手电影</a>
+				<a>二手酒店</a>
+				<a>民宿/公寓</a>
+				<a>商家入驻</a>
+			</div>
+
+			<div class="main-container">
+				<div class="layui-carousel" id="test1">
+					<div carousel-item>
+						<img src="img/head1.jpg">
+						<img src="img/head2.jpg">
+						<img src="img/head3.jpg">
+						<img src="img/head4.jpg">
+					</div>
+				</div>
+				<div style="margin-left: 20px;float: left;">
+					<img src="img/14.jpg" style="width: 150px;height: 230px;    object-fit:cover;">
+				</div>
+				<div style="float: left;margin-left: 20px;">
+					<div class="block" style="width:228px;height: 230px;background-color: #fff;">
+						<div style="display:grid;justify-content:center;">
+							<div id="my_img"></div>
+							<div style="margin-top: 5px;">
+								<p style="text-align: center;" id="username">用户信息</p>
+							</div>
+						</div>
+						<div id="login" style="display:flex;justify-content:center;margin-top: 20px;">
+							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="getLocalStorage()">登录</button>
+						</div>
+						<div id="register" style="display:flex;justify-content:center;margin-top: 10px;">
+							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="setLocalStorage()">注册</button>
+						</div>
+						<!-- <div id="remove" style="display:flex;justify-content:center;">
+							<button type="button" class="layui-btn layui-btn-radius layui-btn-primary" style="width: 100px;" onclick="removeLocalStorage()">清空</button>
+						</div> -->
+					</div>
+				</div>
+				<div style="margin-left: 20px;float: left;">
+					<div onclick="goods(1)"><img src="img/12.jpg" style="width: 200px;height: 230px;margin-top: 20px;"></div>
+				</div>
+				<div style="margin-left: 20px;float: left;"onclick="goods(2)">
+					<img src="img/15.jpg" style="width: 392px;height: 230px;margin-top: 20px;    object-fit:cover;">
+				</div>
+				<div style="margin-left: 20px;float: left;"onclick="goods(3)">
+					<img src="img/13.jpg" style="width: 150px;height: 230px;margin-top: 20px;    object-fit:cover;">
+				</div>
+				<div style="margin-left: 20px;float: left;"onclick="goods(4)">
+					<img src="img/11.jpg" style="width:228px;height: 230px;margin-top: 20px;    object-fit:cover;">
+				</div>
+			</div>
+		</div>
+
+
+		<div style="margin-top:60px;position: absolute;width: 100%;">
+			<div class="tag1">
+				<div id="movie">电影</div>
+			</div>
+		</div>
+		<div class="layui-carousel" id="test2">
+			<div carousel-item>
+				<div>
+					<img src="img/1.jpg">
+					<img src="img/2.jpg">
+					<img src="img/3.jpg">
+					<img src="img/4.jpg">
+					<img src="img/5.jpg">
+				</div>
+				<div>
+					<img src="img/6.jpg">
+					<img src="img/7.jpg">
+					<img src="img/8.jpg">
+					<img src="img/9.jpg">
+					<img src="img/10.jpg">
+				</div>
+			</div>
+		</div>
+
+		<div style="margin-top:60px;position: absolute;width: 100%;">
+			<div class="tag2">
+				<div id="movie">民宿</div>
+			</div>
+		</div>
+		<div class="layui-carousel" id="test3">
+			<div carousel-item>
+				<div>
+					<div style="float: left;">
+						<img src="img/home(1).jpg">
+						<div>
+							<p class="product-title">宽窄巷子地铁电梯阳光loft高层公寓</p>
+							<p class="sub-title"><span>整套1居室·</span><span>可住5人 | </span><span>骡马市/新城市广场</span></p>
+							<p class="price-number numfont price"><span class="price-icon">￥</span>188</p>
+						</div>
+					</div>
+					<div style="float: left;">
+						<img src="img/home(2).jpg">
+						<div>
+							<p class="product-title">【途雅轩】春熙路/太古里/九眼桥/兰桂坊/地铁2号线东门大桥/简约设计/原木风</p>
+							<p class="sub-title"><span>整套2居室·</span><span>可住4人 | </span><span>合江亭/九眼桥</span></p>
+							<p class="price-number numfont price"><span class="price-icon">￥</span>268</p>
+						</div>
+					</div>
+					<div style="float: left;">
+						<img src="img/home(3).jpg">
+						<div>
+							<p class="product-title">【榭榭里】遇见.你是对的人高空露台大床房/天府广场/春熙路/宽窄巷子/锦里/市中心/地铁旁/一室公寓</p>
+							<p class="sub-title"><span>整套1居室·</span><span>可住2人 | </span><span>天府广场/盐市口</span></p>
+							<p class="price-number numfont price"><span class="price-icon">￥</span>188</p>
+						</div>
+					</div>
+					<div style="float: left;">
+						<img src="img/home(7).jpg">
+						<div>
+							<p class="product-title">大屋小筑民宿之泡泡池，ins风</p>
+							<p class="sub-title"><span>单间·</span><span>1居室·</span><span>可住2人·</span></p>
+							<p class="price-number numfont price"><span class="price-icon">￥</span>138</p>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div style="float: left;">
+						<img src="img/home(4).jpg">
+						<p class="product-title">榻榻米落地观景房，毗邻熊猫基地，春熙路，宽窄巷子，亲子出行，</p>
+						<p class="sub-title"><span>整套1居室·</span><span>可住3人 | </span><span>成都站</span></p>
+						<p class="price-number numfont price"><span class="price-icon">￥</span>168</p>
+					</div>
+					<div style="float: left;">
+						<img src="img/home(5).jpg">
+						<p class="product-title">Sunny*近春熙路/太古里/IFS温馨双床房</p>
+						<p class="sub-title"><span>整套1居室·</span><span>可住4人 | </span><span>春熙路/太古里商区</span></p>
+						<p class="price-number numfont price"><span class="price-icon">￥</span>258</p>
+					</div>
+					<div style="float: left;">
+						<img src="img/home(6).jpg">
+						<p class="product-title">【找•逸】步行一分钟到达太古里精致小公寓</p>
+						<p class="sub-title"><span>整套1居室·</span><span>可住2人 | </span><span>春熙路/太古里商区</span></p>
+						<p class="price-number numfont price"><span class="price-icon">￥</span>188</p>
+					</div>
+					<div style="float: left;">
+						<img src="img/home(8).jpg">
+						<div>
+							<p class="product-title">已消毒【悠舍小住.恋空】市中心/文庙广场小清新两居室</p>
+							<p class="sub-title"><span>整套·</span><span>2居室·</span><span>可住4人</span></p>
+							<p class="price-number numfont price"><span class="price-icon">￥</span>207</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="com-footer">
+			<div class="footer-content">
+				<div class="footer-link clearfix">
+					<div class="footer-column">
+						<dl>
+							<dt>用户帮助</dt>
+							<dd><a rel="nofollow" href="" target="_blank">申请退款</a>
+							</dd>
+							<dd><a rel="nofollow" href="" target="_blank">查看券密码</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">常见问题</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">用户协议</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">隐私政策</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">反诈骗公告</a>
+							</dd>
+							<dd><a rel="nofollow" href="" target="_blank">消费者权益保障</a></dd>
+						</dl>
+						<!-- <dl>
+                        <dt>美团服务</dt>
+                        <dd><a href="http://waimai.meituan.com/" target="_blank">美团外卖</a></dd>
+                        <dd><a href="http://hotel.meituan.com/" target="_blank">美团酒店</a></dd>
+                        <dd><a href="http://maoyan.com/" target="_blank">猫眼电影</a></dd>
+                        <dd><a href="https://peisong.meituan.com/" target="_blank">美团配送</a></dd>
+                        <dd><a href="https://www.mtyun.com/" target="_blank">美团云</a></dd>
+                        <dd><a href="http://www.dianping.com/" target="_blank">大众点评</a></dd>
+                        <dd><a href="https://minsu.meituan.com/" target="_blank">美团民宿</a></dd>
+                        <dd><a href="https://mad.meituan.com" target="_blank">无人配送</a></dd>
+                    </dl> -->
+					</div>
+					<div class="footer-column">
+						<dl>
+							<dt>商家合作</dt>
+							<dd><a rel="nofollow" href="" target="_blank">餐饮商户中心</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">美食商家入驻 (非外卖)</a></dd>
+							<dd><a href="" target="_blank">外卖开店申请</a></dd>
+							<dd><a href="" target="_blank">收银官网</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">外卖配送加盟申请</a></dd>
+							<dd><a href="" target="_blank">点评餐饮学院</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">酒店商家入驻</a></dd>
+							<!-- <dd><a rel="nofollow" href="https://ruzhu.meituan.com/settle/trip/pc.html"
+                                target="_blank">境内度假商家入驻</a></dd>
+                        <dd><a rel="nofollow" href="https://e.dianping.com/claimcpc/page/index?source=mt"
+                                target="_blank">综合商家入驻</a></dd>
+                        <dd><a rel="nofollow" href="https://minsu.meituan.com/about/" target="_blank">美团民宿房东商家入驻</a>
+                        </dd>
+                        <dd><a href="http://pc.meituan.com/?activity_code=mtpcdb" target="_blank">商家开票申请</a></dd>
+                        <dd><a rel="nofollow"
+                                href="https://h5.youzan.com/v2/feature/nALm22bkFF?dc_ps=2039811416638097413.200001"
+                                target="_blank">美团点评智能收银机</a></dd>
+                        <dd><a rel="nofollow" href="https://developer.meituan.com/?from=mtpcsw"
+                                target="_blank">美团点评餐饮开放平台</a></dd>
+                        <dd><a rel="nofollow" href="https://recommend-zc.meituan.com/opportunity?channel=1"
+                                target="_blank">美团点评收单</a></dd>
+                        <dd><a rel="nofollow" href="https://paidui.meituan.com/?activity_code=167_00038050"
+                                target="_blank">免费使用美团排队</a></dd>
+                        <dd><a rel="nofollow" href="https://i.meituan.com/awp/hfe/block/6c4bec785dce/11188/index.html"
+                                target="_blank">快驴进货商家合作</a></dd>
+                        <dd><a rel="nofollow" href="https://shangou.meituan.com/joinin" target="_blank">美团闪购商家入驻</a>
+                        </dd> -->
+						</dl>
+					</div>
+					<div class="footer-column">
+						<dl>
+							<dt>代理商加盟</dt>
+							<dd><a rel="nofollow" href="" target="_blank">外卖代理商招募</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">到店餐饮代理商招募</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">非餐饮代理商招募</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">联盟</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">收银招募线上分销商</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">点评 5S 服务商招募</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">收单渠道代理商招募</a></dd>
+						</dl>
+						<dl>
+							<dt>规则</dt>
+							<dd><a rel="nofollow" href="" target="_blank">规则中心</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">规则目录</a>
+							</dd>
+							<dd><a rel="nofollow" href="" target="_blank">规则评议院</a>
+							</dd>
+						</dl>
+					</div>
+					<div class="footer-column">
+						<dl>
+							<dt>关注</dt>
+							<dd><a rel="nofollow" href="" target="_blank">新浪微博</a></dd>
+						</dl>
+						<dl>
+							<dt>公司信息</dt>
+							<dd><a rel="nofollow" href="" target="_blank">关于我们</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">投资者关系</a>
+							</dd>
+							<dd><a rel="nofollow" href="" target="_blank">加入我们</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">商户诚信公约及管理办法</a></dd>
+							<dd><a rel="nofollow" href="" target="_blank">保险经纪资质</a></dd>
+						</dl>
+						<dl>
+							<dt>廉正举报</dt>
+							<dd><a rel="nofollow" href="" target="_self">廉正举报平台</a></dd>
+						</dl>
+						<dl>
+							<dt>知识产权</dt>
+							<dd><a rel="nofollow" href="" target="_blank">知识产权维权平台</a></dd>
+						</dl>
+					</div>
+					<div class="footer-column">
+						<dl>
+							<dt>消费者服务热线</dt>
+							<dd>外卖消费者：<a rel="nofollow" href="tel:xxxxxxxxxxxx" target="_blank">xxxxxxxxxxxx</a></dd>
+							<dd> 猫眼消费者：<a rel="nofollow" href="tel:xxxxxxxxxxxx" target="_blank">xxxxxxxxxxxx</a></dd>
+							<dd> 其他消费者：<a rel="nofollow" href="tel:xxxxxxxxxxxx" target="_blank">xxxxxxxxxxxx</a></dd>
+						</dl>
+						<dl>
+							<dt> 商家服务热线</dt>
+							<dd>外卖 &amp; 餐饮商家：<a rel="nofollow" href="tel:10105557" target="_blank">10105557</a></dd>
+							<dd> 休闲娱乐、丽人、ktv、教育、结婚、亲子、家装等商家：<a rel="nofollow" href="tel:10100107" target="_blank">10100107</a></dd>
+						</dl>
+						<!-- <dl>
+                        <dt> 投诉举报专区</dt>
+                        <dd>违法和不良信息举报电话：<a rel="nofollow" href="tel:4006018900" target="_blank">4006018900</a></dd>
+                        <dd> 举报邮箱：<a rel="nofollow" href="mailto:tousujubao@meituan.com"
+                                target="_self">tousujubao@meituan.com</a></dd>
+                        <dd><a rel="nofollow" href="" target="_blank">网上有害信息举报</a></dd>
+                    </dl> -->
+						<dl>
+							<dt><a rel="nofollow" href="" target="_blank">商家自助入驻入口</a></dt>
+						</dl>
+						<dl>
+							<dt><a rel="nofollow" href="" target="_blank">供应商注册入口</a></dt>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+
+
+		<script type="text/javascript" src="js/dmaku.js"></script>
+
+
+	</body>
+
+
+
+	<style>
+		.el-menu--horizontal>.el-menu-item {
+			float: right;
+		}
+
+		.el-menu--horizontal>.el-submenu {
+			float: right;
+		}
+
+		.header-search-module {
+			float: left;
+			padding-top: 28px;
+			padding-bottom: 28px;
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%);
+			z-index: 999;
+			background-color: #ffffff;
+			width: 100%;
+		}
+
+		.com-header .header-search-module .header-search-block {
+			width: 550px;
+			height: 40px;
+			background: #fff;
+		}
+
+		.main-container {
+			width: 1053px;
+			/* background-color: cadetblue; */
+			float: left;
+			margin-left: 389px;
+			margin-top: 40px;
+		}
+
+		#test1 {
+			width: 612px !important;
+			margin-left: 20px;
+			float: left;
+		}
+
+		#test2 {
+			width: 1200px !important;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 120px;
+			background-color: transparent;
+		}
+
+		#test2 img {
+			height: 230px;
+			padding: 0px 35px;
+		}
+
+		#test3 {
+			width: 1200px !important;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 120px;
+			background-color: transparent;
+		}
+
+		#test3 img {
+			height: 130px;
+			/* padding: 10px 82px; */
+		}
+
+		.product-title {
+			font-size: 16px;
+			color: #222222;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			margin: 7px 0;
+			font-weight: 400;
+			width: 297px;
+			/* padding: 0px 80px; */
+		}
+
+		.sub-title {
+			font-size: 12px;
+			color: #999999;
+			text-align: left;
+			/* padding: 0px 80px; */
+		}
+
+		.price {
+			font-weight: 500;
+			font-size: 22px;
+			color: #FF6600;
+			letter-spacing: -0.8px;
+			/* padding: 4px 80px; */
+		}
+
+		.tag1 {
+			border-radius: 5px;
+			width: 1180px;
+			height: 40px;
+			background-color: #fb3f62;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.tag2 {
+			border-radius: 5px;
+			width: 1180px;
+			height: 40px;
+			background-color: #f3b64a;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		#movie {
+			position: absolute;
+			top: 50%;
+			font-size: 18px;
+			margin-left: 20px;
+			margin-right: 10px;
+			color: #fff;
+			transform: translate(0, -50%);
+		}
+
+		.home-header-links {
+			width: fit-content;
+			margin-left: 450px;
+			position: absolute;
+			margin-top: 10px;
+		}
+
+
+		.home-header-links a {
+			color: #a19191;
+			font-weight: 700;
+			font-size: 16px;
+			margin: 0 20px;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		.home-header-links a:hover {
+			color: #fe8c00;
+			text-decoration: none;
+
+		}
+
+		.com-footer {
+			background: #f8f8f8;
+		}
+
+		.com-footer .footer-content {
+			width: 1190px;
+			margin: 0 auto;
+			color: #333;
+			font-size: 12px;
+			line-height: 2;
+			box-sizing: border-box;
+			text-align: left;
+		}
+
+		.com-footer .footer-content .footer-link {
+			margin-top: 60px;
+			padding: 15px 45px;
+			border-top: 1px solid #E5E5E5;
+		}
+
+		.com-footer .footer-content .footer-link .footer-column {
+			width: 20%;
+			float: left;
+		}
+
+		.com-footer .footer-content .footer-link dl {
+			padding-bottom: 20px;
+			color: #666;
+		}
+
+		.com-footer .footer-content .footer-link dl dt {
+			color: #333;
+			font-size: 14px;
+			font-weight: 500;
+		}
+
+		.com-footer dd {
+			margin: 0;
+		}
+
+		.com-footer .footer-content .footer-link dl a {
+			color: #666;
+		}
+
+		.layui-nav-img {
+			text-align: center;
+			width: 40px;
+			height: 40px;
+		}
+	</style>
+	</style>
+
+
+	<script src="layui/layui.all.js"></script>
+	<script>
+		//由于模块都一次性加载，因此不用执行 layui.use() 来加载对应模块，直接使用即可：
+		;
+		! function() {
+			var layer = layui.layer,
+				form = layui.form;
+		}();
+	</script>
+	<script>
+		function goods(no){
+			localStorage.setItem('goodsId',no)
+			location.href='../goods/goodsDetail.html'
+		}
+		var app = new Vue({
+			el: '#app',
+			data: {
+
+			}
+		})
+	</script>
+
+	<!-- <script>
+		export default {
+			data() {
+				return {
+					circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+					sizeList: ["large", "medium", "small"]
+				}
+			}
+		}
+	</script> -->
+
+	<script>
+		layui.use('carousel', function() {
+			var carousel = layui.carousel;
+			//建造实例
+			carousel.render({
+				elem: '#test1',
+				width: '100%' //设置容器宽度
+					,
+				height: '230px' //设置容器高度
+					,
+				arrow: 'hover' //始终显示箭头
+					,
+				anim: 'fade' //切换动画方式
+					,
+				trigger: 'hover'
+			});
+		});
+
+		layui.use('carousel', function() {
+			var carousel = layui.carousel;
+			//建造实例
+			carousel.render({
+				elem: '#test2',
+				width: '100%' //设置容器宽度
+					,
+				height: '230px' //设置容器高度
+					,
+				arrow: 'hover' //始终显示箭头
+					,
+				anim: 'default' //切换动画方式
+					,
+				trigger: 'hover'
+			});
+		});
+
+		layui.use('carousel', function() {
+			var carousel = layui.carousel;
+			//建造实例
+			carousel.render({
+				elem: '#test3',
+				width: '100%' //设置容器宽度
+					,
+				height: '230px' //设置容器高度
+					,
+				arrow: 'hover' //始终显示箭头
+					,
+				anim: 'default' //切换动画方式
+					,
+				trigger: 'hover'
+			});
+		});
+	</script>
+
+	<!-- 	<script>
+		function getCookie() {
+			var str = document.cookie
+			console.log(str)
+			if (str != ""){
+				document.getElementById('username').innerHTML = str;
+				console.log("获得Cookies")
+			}
+			else{
+				document.getElementById('username').innerHTML = "没有用户";
+				console.log("没有Cookies")
+			}
+		}
+		
+		function setCookie(){
+			cname = "zzx"
+			document.cookie="zzx";
+			console.log("写入Cookies")
+		}
+	</script> -->
+
+	<script>
+		function getLocalStorage() {
+			var str = localStorage.getItem("username")
+			console.log(str)
+			if (str != null) {
+				document.getElementById('username').innerHTML = str;
+				console.log("获得 LocalStorage")
+				var login = document.getElementById('login'); //选取id为test的元素
+				login.style.display = 'none'; // 隐藏选择的元素
+				var register = document.getElementById('register'); //选取id为test的元素
+				register.style.display = 'none'; // 隐藏选择的元素
+				// t.style.display = 'block';	// 以块级样式显示
+			} else {
+				document.getElementById('username').innerHTML = "没有用户";
+				console.log("没有 LocalStorage")
+			}
+		}
+
+		// function removeLocalStorage() {
+		// 	localStorage.removeItem('username')
+		// 	console.log("清空 LocalStorage")
+		// }
+
+		// function setLocalStorage() {
+		// 	username = "zzx";
+		// 	var str = localStorage.setItem("username", username)
+		// 	console.log("写入 LocalStorage")
+		// 	console.log(localStorage.username)
+		// }
+	</script>
+
+	<script>
+		if (localStorage.getItem('userId') != null) {
+			var login = document.getElementById('login'); //选取id为test的元素
+			login.style.display = 'none'; // 隐藏选择的元素
+			var register = document.getElementById('register'); //选取id为test的元素
+			register.style.display = 'none'; // 隐藏选择的元素
+		}
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			axios.post('/api/user_info', {
+				user_id: localStorage.getItem('userId') ? localStorage.getItem('userId') : '1',
+				time: Date.now()
+			}).then(({
+				data,
+				msg
+			}) => {
+				console.log(msg)
+				$('#my_img').html('<img src="' + 'http://39.105.45.6:3232' + data.user_icon + '"class="layui-nav-img" >')
+				document.getElementById('username').innerHTML = data.user_nickname;
+			})
+		})
+	</script>
+</html>

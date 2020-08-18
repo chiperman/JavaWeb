@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goodsList</title>
+</head>
+<body>
+    <script type="module">
+        import Main from './app/js/Main.js';
+        var arr=[
+            {img:"img01.webp",title:"不知火丑柑丑橘5斤装",desc:"第二件9.9元",price_desc:"1年历史最低价",price_now:"19.9",price_pre:"29.9",sale:"511",href:"https://item.jd.com/21562085787.html"},
+            {img:"img02.webp",title:"【第二件9.9】霜降圆柿饼2斤装",desc:"第二件9.9元",price_desc:"38天历史最低价",price_now:"19.9",price_pre:"39.9",sale:"130",href:"https://item.jd.com/62033699001.html"},
+            {img:"img03.webp",title:"第二件半价】融极厚切眼肉5片",desc:"第二件半价",price_desc:"88天历史最低价",price_now:"99",price_pre:"159",sale:"189",href:"https://item.jd.com/59888245671.html"},
+            {img:"img04.webp",title:"德州扒鸡500g 山东特产年货",desc:"88元选4件",price_desc:"134天历史最低价",price_now:"23.9",price_pre:"36.9",sale:"266",href:"https://item.jd.com/20821451207.html"},
+            {img:"img05.webp",title:"九善食 活冻厄瓜多尔白虾",desc:"2份立减",price_desc:"32天历史最低价",price_now:"49",price_pre:"89",sale:"528",href:"https://item.jd.com/63882104774.html"},
+            {img:"img06.webp",title:"全母盛宴（2.0-2.3两）10只",desc:"现捕现发",price_desc:"82天历史最低价",price_now:"98",price_pre:"189",sale:"35",href:"https://item.jd.com/60387540668.html"},
+            {img:"img07.webp",title:"态好吃100%纯可可脂黑巧克力",desc:"买一送一丝滑细腻",price_desc:"181天历史最低价",price_now:"17.9",price_pre:"29.9",sale:"150",href:"https://item.jd.com/50895183185.html"},
+            {img:"img08.webp",title:"陶唐峪酱卤猪头肉500g",desc:"下酒菜",price_desc:"86天历史最低价",price_now:"29.5",price_pre:"49.8",sale:"140",href:"https://item.jd.com/58729017337.html"},
+            {img:"img09.webp",title:"乐锦记 手撕面包2斤/整箱1000g",desc:"整箱2斤装",price_desc:"309天历史最低价",price_now:"19.8",price_pre:"29.8",sale:"259",href:"https://item.jd.com/43443070344.html"},
+            {img:"img10.webp",title:"买一送一雪媚娘蛋黄酥330g/盒",desc:"买一送一共12枚",price_desc:"1年历史最低价",price_now:"27.8",price_pre:"39.8",sale:"292",href:"https://item.jd.com/25665431802.html"},
+            {img:"img11.webp",title:"五常有机稻花香500g（1斤）",desc:"正宗五常大米",price_desc:"138天历史最低价",price_now:"19.9",price_pre:"29.9",sale:"10",href:"https://item.jd.com/56090150750.html"},
+            {img:"img12.webp",title:"湖南毛毛鱼 小鱼干20包 糖醋",desc:"2件8折3件7折",price_desc:"230天历史最低价",price_now:"13.9",price_pre:"19.9",sale:"103",href:"https://item.jd.com/49202317748.html"},
+        ]
+        
+        init();
+        function init(){
+            let frg=document.createDocumentFragment();
+            for(let i=0;i<arr.length;i++){
+                let main = new Main(arr[i],"./img/");
+                main.appendTo(frg);
+            }
+            document.body.appendChild(frg);
+        }
+    </script>
+</body>
+</html>
