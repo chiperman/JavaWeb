@@ -48,6 +48,7 @@ layui.use('table', function(){
 			for(let i=0; i<data.length; i++) {
 				data[i].state === 1 ? data[i].state = '封禁中' : data[i].state = '正常';
 				data[i].during_time += '天';
+				data[i].time = new Date(parseInt(data[i].time) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
 			}
 			goods_data = data
 			//第一个实例
